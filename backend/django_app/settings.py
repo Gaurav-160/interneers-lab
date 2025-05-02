@@ -82,13 +82,21 @@ WSGI_APPLICATION = "django_app.wsgi.application"
 #     }
 # }
 
+# for development
+# MONGODB_SETTINGS = {
+#     "db": "inventory_database",
+#     "host": "mongodb://root:example@localhost:27018/inventory_database?authSource=admin"
+# }
+
+# connect(**MONGODB_SETTINGS)
+
+# for testing 
 MONGODB_SETTINGS = {
     "db": "inventory_database",
-    "host": "mongodb://root:example@localhost:27018/inventory_database?authSource=admin"
+    "host": "mongodb://localhost:27017/test_db?authSource=admin"
 }
 
 connect(**MONGODB_SETTINGS)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

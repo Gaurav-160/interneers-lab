@@ -128,7 +128,7 @@ class ProductCategoryService:
         return {
             "id" : str(category.id), 
             "title":category.title if category != None else None, 
-            "price":category.description
+            "description":category.description
         }
     
     def update_category(id, category_data):
@@ -139,7 +139,7 @@ class ProductCategoryService:
         return {
             "id" : str(category.id), 
             "title":category.title if category != None else None, 
-            "price":category.description
+            "description":category.description
         }
     
     def delete_category(id):

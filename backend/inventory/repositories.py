@@ -58,7 +58,7 @@ class ProductCategoryRepository:
 class ProductRepository:
 
     @staticmethod
-    def get_all_products(filters):
+    def get_all_products(filters={}):
         return Product.objects(**filters)
     
 
