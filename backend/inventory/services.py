@@ -40,8 +40,8 @@ class ProductService:
     
 
     @staticmethod
-    def get_products_with_category(category):
-        products = ProductRepository.get_products_with_category(category)
+    def get_products_with_category(id):
+        products = ProductRepository.get_products_with_category(id)
         return [{
             "id" : str(p.id), 
             "name":p.name, 
@@ -74,17 +74,21 @@ class ProductService:
     def update_product(id, product_data):
         product = ProductRepository.get_product_by_id(id)
         if not product:
-            return {"error" : "Product not found. Kindly create new one."}
-        product = ProductRepository.update_product(product, product_data)
-        return {
-            "id":str(product.id), 
-            "name":product.name, 
-            "category":product.category.title if product.category != None else None, 
-            "price":product.price, 
-            "quantity":product.quantity, 
-            "created_at":product.created_at, 
-            "updated_at":product.updated_at
-        }
+            return {"error" : "Product not found.", "code": 404, "missing": "product"}
+        response = ProductRepository.update_product(product, product_data)
+        if response["code"] == 200:
+            return {
+                "id":str(response['product'].id), 
+                "name":response['product'].name, 
+                "category":response['product'].category.title if response['product'].category != None else None, 
+                "price":response['product'].price, 
+                "quantity":response['product'].quantity, 
+                "created_at":response['product'].created_at, 
+                "updated_at":response['product'].updated_at
+            }
+
+        return response
+        
     
 
     def delete_product(id):
@@ -110,14 +114,14 @@ class ProductCategoryService:
     def get_category_by_id(id):
         category = ProductCategoryRepository.get_category_by_id(id)
         if category: 
-            return {"id" : str(category.id), "title":category.title if category != None else None, "price":category.description}
+            return {"id" : str(category.id), "title":category.title if category != None else None, "description":category.description}
         return None
     
     @staticmethod
     def get_category_by_name(name):
         category = ProductCategoryRepository.get_category_by_name(name)
         if category:
-            return {"id" : str(category.id), "title":category.title if category != None else None, "price":category.description}
+            return {"id" : str(category.id), "title":category.title if category != None else None, "description":category.description}
         return None
     
     @staticmethod

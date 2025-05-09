@@ -19,6 +19,7 @@ urlpatterns = [
     path('categories', controllers.get_all_categories, name = "getall-categories"),
     path('categories/create', controllers.create_category, name = "create-category"),
     path('categories/<str:id>', controllers.get_category_by_id, name="get_category_by_id"),
+    path('categories/<str:category_id>/products', controllers.get_products_with_category, name="get_products_with_category"),
     path('categories/<str:id>/update', controllers.update_category, name="update-category"),
     path('categories/<str:id>/delete', controllers.delete_category, name="delete-category"),
     path('categories/<str:category>/add-product', controllers.add_product, name="add-product"),

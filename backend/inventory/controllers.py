@@ -40,9 +40,7 @@ def get_all_products(request):
         if date:
             filters['created_at__lte'] = date
 
-    print(f"filters: {filters}")
     try:
-        # products = ProductService.get_all_products() if category is None else ProductService.get_products_with_category(category=category)
         products = ProductService.get_all_products(filters)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -54,6 +52,11 @@ def get_product_by_id(request, id):
     if product:
         return JsonResponse(product)
     return JsonResponse({"error" : "Product not found"}, status = 404)
+
+
+def get_products_with_category(request, category_id):
+    products = ProductService.get_products_with_category(id=category_id)
+    return products
 
 
 @csrf_exempt

@@ -1,25 +1,27 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { Fragment } from "react";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Home from "components/Home";
+import ProductsPage from "components/ProductsPage";
+import CategoryPage from "components/CategoryPage";
+import ProductDetailPage from "components/ProductDetailPage";
+import CreateProductPage from "components/CreateProductPage";
+import CreateCategoryPage from "components/CreateCategoryPage";
+import CategoryDetailPage from "components/CategoryDetailPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Routes>
+        <Route element={<Home />} path="/" />
+        <Route element={<ProductsPage />} path="/products" />
+        <Route element={<CategoryPage />} path="/categories" />
+        <Route element={<ProductDetailPage />} path="/products/:id" />
+        <Route element={<CategoryDetailPage />} path="/categories/:id" />
+        <Route element={<CreateProductPage />} path="/products/create" />
+        <Route element={<CreateCategoryPage />} path="/categories/create" />
+      </Routes>
+    </Fragment>
   );
 }
 

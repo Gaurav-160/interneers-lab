@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "inventory"
+    "inventory",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -83,20 +85,25 @@ WSGI_APPLICATION = "django_app.wsgi.application"
 # }
 
 # for development
-# MONGODB_SETTINGS = {
-#     "db": "inventory_database",
-#     "host": "mongodb://root:example@localhost:27018/inventory_database?authSource=admin"
-# }
-
-# connect(**MONGODB_SETTINGS)
-
-# for testing 
 MONGODB_SETTINGS = {
     "db": "inventory_database",
-    "host": "mongodb://localhost:27017/test_db?authSource=admin"
+    "host": "mongodb://root:example@localhost:27018/inventory_database?authSource=admin"
 }
 
 connect(**MONGODB_SETTINGS)
+
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#   'http://127.0.0.1:3000',
+# )
+
+# for testing 
+# MONGODB_SETTINGS = {
+#     "db": "inventory_database",
+#     "host": "mongodb://localhost:27017/test_db?authSource=admin"
+# }
+
+# connect(**MONGODB_SETTINGS)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

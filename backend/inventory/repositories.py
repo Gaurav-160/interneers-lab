@@ -48,7 +48,6 @@ class ProductCategoryRepository:
 
     @staticmethod
     def remove_product(product):
-        print(f"%%%%%%%%%%%%%%%%%%% PRODUCT %%%%%%%%%%%%%%%%%%%")
         print(type(product))
         product["category"] = None
         product.save()
@@ -63,9 +62,8 @@ class ProductRepository:
     
 
     @staticmethod
-    def get_products_with_category(category):
-        return Product.objects(category=ProductCategory.objects.get(title=category))
-        
+    def get_products_with_category(id):
+        return Product.objects(category = ProductCategory.objects.get(id=ObjectId(id)))
 
     @staticmethod
     def get_product_by_id(id):
@@ -85,7 +83,11 @@ class ProductRepository:
 
     @staticmethod
     def create_product(product_data):
-        category = ProductCategory.objects.get(title=product_data['category'])
+        try:
+            category = ProductCategory.objects.get(title=product_data['category'])
+        except ProductCategory.DoesNotExist:
+            category = ProductCategory(title=product_data['category'], description="")
+            category.save()
         product = Product(
             name=product_data['name'],
             description=product_data['description'], 
@@ -101,9 +103,8 @@ class ProductRepository:
 
 
     @staticmethod
-    def update_product(product, product_data):
+    def update_product_prev(product, product_data):
         for key, value in product_data.items():
-            print(f"key : {key} value : {value}")
             if key == "category":
                 if product.category == None or product_data["category"] != product.category.title:
                     cat = ProductCategory.objects.get(title=product_data["category"])
@@ -114,6 +115,22 @@ class ProductRepository:
         product.save()
         return product
 
+    @staticmethod
+    def update_product(product, product_data):
+        allowed_updates = ["name", "description", "price", "brand", "quantity"]
+        try:
+            category = ProductCategory.objects.get(title=product_data['category'])
+            product['category'] = category
+            for key, value in product_data.items():
+                if key in allowed_updates: 
+                    setattr(product, key, value)
+            product['updated_at'] = datetime.now()
+            product.save()
+            return {"product": product, "code":200}
+        except ProductCategory.DoesNotExist:
+            return {"message": "Category does not exist", "code": 404, "missing": "category"}
+        
+        
 
     @staticmethod
     def delete_product(product):
